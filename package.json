@@ -1,0 +1,39 @@
+{
+  "dependencies": {},
+  "name": "Propellerhead_CustomerInfo",
+  "version": "1.0.0",
+  "description": "An application that allows a company to see their customer information.",
+  "main": "index.js",
+  "repository": "git@github.com:rkmd77/Propellerhead_CustomerInfo.git",
+  "author": "Rick Lee",
+  "license": "MIT",
+  "scripts": {
+    "dev": "webpack-dev-server"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^1.0.0",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "html-webpack-plugin": "^3.2.0",
+    "http-proxy-middleware": "^0.18.0",
+    "mini-css-extract-plugin": "^0.4.1",
+    "node-sass": "^4.9.2",
+    "sass-loader": "^7.0.3",
+    "style-loader": "^0.21.0",
+    "url-loader": "^1.0.1",
+    "webpack": "3.10.0",
+    "webpack-cli": "^3.0.8",
+    "webpack-dev-server": "2.9.7"
+  },
+  "dependencies": {
+  	"font-awesome": "^4.7.0",
+    "prop-types": "^15.6.2",
+    "rc-pagination": "^1.16.5",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-router-dom": "^4.3.1"
+  }
+}

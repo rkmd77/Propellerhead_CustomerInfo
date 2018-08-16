@@ -82,13 +82,13 @@ module.exports = {
   ],
   devServer: {
     host: 'localhost',
-    port: '8081',
+    port: '7289',
     historyApiFallback: {
       index: '/dist/index.html'
     },
     proxy: [{
       context: context,
-      target: 'http://localhost:8181',
+      target: 'http://localhost:9093',
       changeOrigin: true
     }]
   }

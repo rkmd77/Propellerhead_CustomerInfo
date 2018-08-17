@@ -1,5 +1,17 @@
 {
-  "dependencies": {},
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "font-awesome": "^4.7.0",
+    "mongoose": "^5.0.15",
+    "prop-types": "^15.6.2",
+    "rc-pagination": "^1.16.5",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-router-dom": "^4.3.1",
+    "webpack": "3.8.1"
+  },
   "name": "Propellerhead_CustomerInfo",
   "version": "1.0.0",
   "description": "An application that allows a company to see their customer information.",
@@ -24,17 +36,7 @@
     "sass-loader": "^7.0.3",
     "style-loader": "^0.21.0",
     "url-loader": "^1.0.1",
-    "webpack": "3.10.0",
     "webpack-cli": "^3.0.8",
     "webpack-dev-server": "2.9.7"
-  },
-  "dependencies": {
-    "font-awesome": "^4.7.0",
-    "mongoose": "^5.0.15",
-    "prop-types": "^15.6.2",
-    "rc-pagination": "^1.16.5",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "react-router-dom": "^4.3.1"
   }
 }

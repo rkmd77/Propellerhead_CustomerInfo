@@ -5,7 +5,7 @@ import Customer from 'service/customer-service.jsx'
 
 import PageTitle from 'component/page-title/index.jsx';
 import TableList from 'util/table-list/index.jsx';
-
+import Selecter from 'component/selecter/index.jsx'
 
 import './index.scss';
 
@@ -16,34 +16,23 @@ class CustomerList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            list: [
-                {
-                    id: 1234560,
-                    name: 'live 1',
-                    phone: 123456789,
-                    address: '365 East Coast Road, Auckland',
-                    status: 'prospective',
-                    notes: ['abc','nds']
-                }
-            ]
+            list: [],
+            notelist: []
         };
     }
 
     componentDidMount() {
 
-        // this.loadCustomerList();
+        this.loadCustomerList();
     }
     loadCustomerList() {
         _customer.getCustomerList().then(res => {
-            console.log(res);
+            console.log(res.results);
             this.setState({
-                list: res.list,
-                customer: res.customer,
-                suburb: res.suburb,
-                material: res.material,
-                colour: res.colour
+                list: res.results
+                
             });
-            this.changeSelectorValue(res.customer, res.suburb, res.material, res.colour);
+            // this.changeSelectorValue(res.customer, res.suburb, res.material, res.colour);
         }, errMsg => {
             _mm.errorTips(errMsg);
         });
@@ -62,14 +51,21 @@ class CustomerList extends React.Component {
         this.setState({ list: data })
     }
     
+    randomColor(){
+      var string = "success,info,warning,danger";
+      var array = string.split(",");
+      var value = array[Math.round(Math.random()*(array.length-1))];
+      return "bg-"+value+" autowidth";
+    }
+
     render() {
         let tableHeads = [
             { name: 'Customer ID', width: '10%' },
             { name: 'Name', width: '10%' },
             { name: 'Phone', width: '10%' },
             { name: 'Address', width: '10%' },
-            { name: 'Status', width: '10%' },
-            { name: 'Notes', width: '50%' }
+            { name: 'Status', width: '15%' },
+            { name: 'Notes', width: '45%' }
         ];
         return (
             <div id="page-wrapper">
@@ -79,19 +75,29 @@ class CustomerList extends React.Component {
                 <TableList tableHeads={tableHeads}>
                     {
                         this.state.list.map((customer, index) => {
+                          if(!!customer.notes){
+                            var jsonArray = JSON.parse(customer.notes);
+                            var noteArray = [];
+                            for(var i = 0; i < jsonArray.length; i++){
+                              noteArray.push(jsonArray[i].text);
+                              console.log(noteArray);
+                              }
+                            }
                             return (
                                 <tr key={index}>
                                     <td>
-                                    <Link to={ `/customer/edit/${customer.id}` }>{customer.id}</Link></td>
+                                    <Link to={ `/customer/edit/${customer.custid}` }>{customer.custid}</Link></td>
                                     <td>{customer.name}</td>
                                     <td>{customer.phone}</td>
                                     <td>{customer.address}</td>
                                     <td>
-                                        <span className={customer.status == 1 ? 'onsale' : 'offstock'}>{customer.status == 1 ? 'On Sale' : 'Off Stock'}</span>
-                                        <button className={customer.status == 1 ? 'btn btn-xs btn-right btn-danger' : 'btn btn-xs btn-right btn-success'}
-                                            onClick={(e) => {this.onSetcustomerStatus(e, customer.id, customer.status)}}>{customer.status == 1 ? 'Off Stock' : 'On Sale'}</button>
+                                        <Selecter readOnly defaultSelected={customer.status} />
                                     </td>
-                                    <td>{customer.notes}</td>
+                                    <td>{noteArray?noteArray.map((v,i)=>{
+                                        return <span key={i} className={this.randomColor()}>{v}</span>
+                                      }):null}
+                                    </td>
+
                                 </tr>
                             );
                         })

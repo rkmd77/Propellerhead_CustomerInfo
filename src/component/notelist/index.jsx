@@ -10,8 +10,6 @@ class NoteList extends React.Component {
 
   onTextChange(e, id) {
     // console.log('text',e.target.value);
-
-    // let text = e.target.value
     this.props.updateItem(id, e.target.value)
   }
 

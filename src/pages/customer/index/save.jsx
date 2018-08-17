@@ -4,7 +4,7 @@ import Customer from 'service/customer-service.jsx'
 import PageTitle from 'component/page-title/index.jsx';
 import NotesLists from 'pages/customer/notes_lists/index.jsx';
 
-import './save.scss';
+import './index.scss';
 
 const _mm = new MUtil();
 const _customer = new Customer();
@@ -17,15 +17,16 @@ class CustomerSave extends React.Component {
             name: 'Rick',
             phone: '02108978150',
             address: '365 East Coast Road',
-            status: '1',
-            notes: []
+            status: '0',
+            notes: {}
         }
     }
     componentDidMount() {
         // this.loadProduct();
     }
 
-    getNotesList(noteslist){
+    getNotesList(noteslist) {
+        // console.log(typeof(noteslist));
         this.setState({
             notes: noteslist
         })
@@ -40,9 +41,36 @@ class CustomerSave extends React.Component {
     }
 
     onSubmit() {
-        let custinfo = this.state;
-        console.log(custinfo);
+        let customer = this.state;
+        let customerinfo = {
+            custid: customer.custid,
+            name: customer.name,
+            phone: customer.phone,
+            address: customer.address,
+            status: customer.status,
+            // notes: customer.notes
+        }
+        const jsons = Object.assign({},customerinfo,{notes:customer.notes});
 
+         _customer.saveCustomer(jsons).then((res) => {
+            _mm.successTips(res.msg);
+                // this.props.history.push('/product/index');
+            }, (errMsg) => {
+            });
+
+        // let customer = this.state;
+        // console.log(customer);
+        // axios.post('/save/savecustomer', {
+        //     custid: customer.custid,
+        //     name: customer.name,
+        //     phone: customer.phone,
+        //     address: customer.address,
+        //     status: customer.status,
+        //     notes: customer.notes
+        // })
+        //     .then(res => {
+        //         console.log(res);
+        //     });
 
     }
     render() {
@@ -50,9 +78,9 @@ class CustomerSave extends React.Component {
             <div id="page-wrapper">
                 <PageTitle title='Add Customer' />
                 <div className="form-horizontal">
-                    <div className="form-group">
+                    <div className="form-group required">
                         <label className="col-md-2 control-label">Customer ID</label>
-                        <div className="col-md-5">
+                        <div className="col-md-6">
                             <input type="text" className="form-control"
                                 placeholder="Customer ID"
                                 name="custid"
@@ -62,7 +90,7 @@ class CustomerSave extends React.Component {
                     </div>
                     <div className="form-group">
                         <label className="col-md-2 control-label">Customer Name</label>
-                        <div className="col-md-5">
+                        <div className="col-md-6">
                             <input type="text" className="form-control"
                                 placeholder="Customer Name"
                                 name="name"
@@ -72,7 +100,7 @@ class CustomerSave extends React.Component {
                     </div>
                     <div className="form-group">
                         <label className="col-md-2 control-label">Phone Number</label>
-                        <div className="col-md-5">
+                        <div className="col-md-6">
                             <input type="text" className="form-control"
                                 placeholder="Phone Number"
                                 name="phone"
@@ -82,7 +110,7 @@ class CustomerSave extends React.Component {
                     </div>
                     <div className="form-group">
                         <label className="col-md-2 control-label">Address</label>
-                        <div className="col-md-5">
+                        <div className="col-md-6">
                             <input type="text" className="form-control"
                                 placeholder="Address"
                                 name="address"
@@ -103,7 +131,7 @@ class CustomerSave extends React.Component {
                     </div>
                     <div className="form-group">
                         <label className="col-md-2 control-label">Notes</label>
-                        <div className="col-md-5">
+                        <div className="col-md-6">
                             <NotesLists getNotesList={this.getNotesList.bind(this)} />
                         </div>
                     </div>

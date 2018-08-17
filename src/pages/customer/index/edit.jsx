@@ -3,12 +3,12 @@ import MUtil from 'util/util.jsx'
 import Customer from 'service/customer-service.jsx'
 import PageTitle from 'component/page-title/index.jsx';
 
-import './save.scss';
+import './index.scss';
 
 const _mm = new MUtil();
 const _customer = new Customer();
 
-class CustomerSave extends React.Component {
+class CustomerEdit extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -21,6 +21,8 @@ class CustomerSave extends React.Component {
         }
     }
     componentDidMount() {
+        console.log(this.props.match.params.pid);
+        
         // this.loadProduct();
     }
     // 加载商品详情
@@ -135,4 +137,4 @@ class CustomerSave extends React.Component {
         )
     }
 }
-export default CustomerSave;
+export default CustomerEdit;

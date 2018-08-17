@@ -2,9 +2,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const proxy = require('http-proxy-middleware')
 
-const context = [`/suburbs`, `/materials`, `/colours`, `/data`]
 
 module.exports = {
   entry: './src/app.jsx',
@@ -14,12 +12,12 @@ module.exports = {
     filename: 'js/bundle.js'
   },
   resolve: {
-    alias: {
-      pages: path.resolve(__dirname, 'src/pages'),
-      component: path.resolve(__dirname, 'src/component'),
-      util: path.resolve(__dirname, 'src/util'),
-      service: path.resolve(__dirname, 'src/service')
-    }
+      alias:{
+        pages        : path.resolve(__dirname, 'src/pages'),
+        component   : path.resolve(__dirname, 'src/component'),
+        util        : path.resolve(__dirname, 'src/util'),
+        service     : path.resolve(__dirname, 'src/service')
+      }
   },
   module: {
     rules: [
@@ -37,18 +35,18 @@ module.exports = {
       {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: "css-loader"
+            fallback: "style-loader",
+            use: "css-loader"
         })
-      },
-      // sass文件的处理
-      {
+    },
+    // sass文件的处理
+    {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader', 'sass-loader']
+            fallback: 'style-loader',
+            use: ['css-loader', 'sass-loader']
         })
-      },
+    },
       {
         test: /\.(png|jpg|gif)$/,
         use: [
@@ -64,32 +62,38 @@ module.exports = {
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/,
         use: [
-          'file-loader'
+            'file-loader'
         ]
       }
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: 'src/index.html',
-      favicon: './favicon.ico'
-    }),
-    new ExtractTextPlugin("css/[name].css"),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'common',
-      filename: 'js/base.js'
-    })
-  ],
-  devServer: {
-    host: 'localhost',
-    port: '7289',
-    historyApiFallback: {
-      index: '/dist/index.html'
-    },
-    proxy: [{
-      context: context,
-      target: 'http://localhost:9093',
-      changeOrigin: true
-    }]
-  }
+        new HtmlWebpackPlugin({
+            template: 'src/index.html',
+            favicon: './favicon.ico'
+        }),
+        new ExtractTextPlugin("css/[name].css"),
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'common',
+            filename: 'js/base.js'
+        })
+    ],
+    devServer: {
+        // contentBase: './dist'
+        port: 7389,
+        historyApiFallback: {
+            index: '/dist/index.html'
+        },
+        proxy: [{
+          context: '/cust/',
+          target: 'http://localhost:9090',
+          changeOrigin: true
+        },
+        // {
+        //   context: '/save/',
+        //   target: 'http://localhost:9090',
+        //   changeOrigin: true
+        // }
+        ]
+       }
 };

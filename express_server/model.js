@@ -5,7 +5,7 @@ mongoose.connect(DB_URL)
 
 const models = {
 	customer:{
-		'id':{type:String, require:true},
+		'custid':{type:String, require:true},
 		'name':{type:String, require:true},
 		'phone':{type:String},
 		'address':{type:String},

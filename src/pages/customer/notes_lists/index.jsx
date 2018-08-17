@@ -22,8 +22,9 @@ class NotesLists extends React.Component {
 
         this.setState({
             noteslists: data
+        }, () => {
+            this.updateNotesLists();
         })
-        this.updateNotesLists();
     }
 
     // remove item
@@ -35,7 +36,7 @@ class NotesLists extends React.Component {
                     return item;
                 }
             })
-        },function(){
+        }, () => {
             this.updateNotesLists();
         })
     }
@@ -48,13 +49,13 @@ class NotesLists extends React.Component {
                 id: id,
                 text: value
             })
-        },function(){
+        }, () => {
             this.updateNotesLists();
         })
     }
 
     // pass value to parent NotesLists
-    updateNotesLists(){
+    updateNotesLists() {
         this.props.getNotesList(this.state.noteslists)
     }
 

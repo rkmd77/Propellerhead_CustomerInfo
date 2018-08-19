@@ -23,7 +23,7 @@ First you will need to install 'mongodb' on your operation system
 
 ``` sh
 # At the express_server path
-\Propellerhead_CustomerInfo/express_server
+\Propellerhead_CustomerInfo\express_server
 
 # Run express server
 node server.js

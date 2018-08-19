@@ -10,13 +10,13 @@ app.use(bodyParser());
 
 
 app.use('/cust', customerRouter);
-app.use(function(req,res,next){
-	console.log(req.url);
-	if(req.url.startsWith('/customer/')){			//设置白名单
+app.use(function (req, res, next) {
+	console.log(path.resolve('build/index.html'));
+	if (req.url.startsWith('/customer/')) {
 		return next()
 	}
-	return res.sendFile(path.resolve('dist/index.html'))			//path.resolve() 是修正路径用的
+	return res.sendFile(path.resolve('/dist/index.html'))
 })
-app.listen(9090, function(){
+app.listen(9090, function () {
 	console.log('Node Express Server start at 9090 ...');
 })

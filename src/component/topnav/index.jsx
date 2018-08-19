@@ -8,6 +8,7 @@ class TopNav extends React.Component {
             username: "Rick Lee"
         }
     }
+
     render() {
         return (
             <div className="navbar navbar-default top-navbar" role="navigation">

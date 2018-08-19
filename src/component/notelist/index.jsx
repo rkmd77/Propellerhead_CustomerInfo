@@ -27,16 +27,14 @@ class NoteList extends React.Component {
               return (
                 <li key={index} className="list-group-item">
                   <div className="input-group">
-                  <input type="text" className="form-control"
-                    value={item.text}
-                    onChange={(e) => this.onTextChange(e, item.id)} />
+                    <input type="text" className="form-control"
+                      value={item.text}
+                      onChange={(e) => this.onTextChange(e, item.id)} />
                     <span className="input-group-btn">
-                      <button className="btn btn-danger" type="button" 
-                      onClick={this.handleClick.bind(this, item.id)}>Delete</button>
+                      <button className="btn btn-danger" type="button"
+                        onClick={this.handleClick.bind(this, item.id)}>Delete</button>
                     </span>
                   </div>
-                  
-
                 </li>
               )
             })

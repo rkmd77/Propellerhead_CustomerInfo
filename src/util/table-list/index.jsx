@@ -1,34 +1,31 @@
 
-import React            from 'react';
+import React from 'react';
 
-// 通用的列表
-class TableList extends React.Component{
-    constructor(props){
+// common table
+class TableList extends React.Component {
+    constructor(props) {
         super(props);
         this.state = {
             isFirstLoading: true
         }
     }
-    componentWillReceiveProps(){
-        // 列表只有在第一次挂载的时候，isFirstLoading为true，其他情况为false
+    componentWillReceiveProps() {
+        // when table list first loading，isFirstLoading=true，else false
         this.setState({
-            isFirstLoading : false
+            isFirstLoading: false
         });
     }
-    render(){
-        // 表头信息
+    render() {
         let tableHeader = this.props.tableHeads.map(
             (tableHead, index) => {
-                if(typeof tableHead === 'object'){
+                if (typeof tableHead === 'object') {
                     return <th key={index} width={tableHead.width}>{tableHead.name}</th>
-                }else if(typeof tableHead === 'string'){
+                } else if (typeof tableHead === 'string') {
                     return <th key={index}>{tableHead}</th>
                 }
             }
         );
-        // 列表内容
         let listBody = this.props.children;
-        // 列表的信息
         let listInfo = (
             <tr>
                 <td colSpan={this.props.tableHeads.length} className="text-center">

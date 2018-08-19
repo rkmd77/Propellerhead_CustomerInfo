@@ -2,6 +2,7 @@ import React from 'react';
 import MUtil from 'util/util.jsx'
 import Customer from 'service/customer-service.jsx'
 import PageTitle from 'component/page-title/index.jsx';
+import Selecter from 'component/selecter/index.jsx'
 import NotesLists from 'pages/customer/notes_lists/index.jsx';
 
 import './index.scss';
@@ -18,15 +19,12 @@ class CustomerSave extends React.Component {
             phone: '02108978150',
             address: '365 East Coast Road',
             status: '0',
+            creation: new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString(),
             notes: {}
         }
     }
-    componentDidMount() {
-        // this.loadProduct();
-    }
 
     getNotesList(noteslist) {
-        // console.log(typeof(noteslist));
         this.setState({
             notes: noteslist
         })
@@ -34,45 +32,31 @@ class CustomerSave extends React.Component {
 
     onValueChange(e) {
         let name = e.target.name,
-            value = e.target.value.trim();
+            value = e.target.value;
         this.setState({
             [name]: value
         });
     }
 
+    onSelectorValueChange(value) {
+        this.setState({
+            status: value
+        })
+    }
+
     onSubmit() {
         let customer = this.state;
-        let customerinfo = {
-            custid: customer.custid,
-            name: customer.name,
-            phone: customer.phone,
-            address: customer.address,
-            status: customer.status,
-            // notes: customer.notes
-        }
-        const jsons = Object.assign({},customerinfo,{notes:customer.notes});
 
-         _customer.saveCustomer(jsons).then((res) => {
+        _customer.saveCustomer(customer).then((res) => {
             _mm.successTips(res.msg);
-                // this.props.history.push('/product/index');
-            }, (errMsg) => {
-            });
-
-        // let customer = this.state;
-        // console.log(customer);
-        // axios.post('/save/savecustomer', {
-        //     custid: customer.custid,
-        //     name: customer.name,
-        //     phone: customer.phone,
-        //     address: customer.address,
-        //     status: customer.status,
-        //     notes: customer.notes
-        // })
-        //     .then(res => {
-        //         console.log(res);
-        //     });
-
+            if (res.status === '0') {
+                this.props.history.push('/customer/index');
+            }
+        }, (errMsg) => {
+            _mm.errorTips(errMsg);
+        });
     }
+
     render() {
         return (
             <div id="page-wrapper">
@@ -121,12 +105,14 @@ class CustomerSave extends React.Component {
                     <div className="form-group">
                         <label className="col-md-2 control-label">status</label>
                         <div className="col-md-3">
-                            <select className="form-control" name="status"
-                                onChange={(e) => this.onValueChange(e)}>
-                                <option value="0">prospective</option>
-                                <option value="1">current</option>
-                                <option value="2">non-active</option>
-                            </select>
+                            <Selecter defaultSelected={this.state.status} name="status"
+                                onSelectorValueChange={(value) => this.onSelectorValueChange(value)} />
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label className="col-md-2 control-label">Create At</label>
+                        <div className="col-md-3">
+                            <span>{this.state.creation}</span>
                         </div>
                     </div>
                     <div className="form-group">

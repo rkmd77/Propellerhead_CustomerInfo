@@ -1,32 +1,36 @@
-import React        from 'react';
+import React from 'react';
 
-class ListSearch extends React.Component{
-    constructor(props){
+class ListSearch extends React.Component {
+    constructor(props) {
         super(props);
         this.state = {
-            searchType      : 'productId', //productId / productName
-            searchKeyword   : ''
+            searchType: 'customerId', //customerId / customerName
+            searchKeyword: ''
         }
     }
-    // 数据变化的时候
-    onValueChange(e){
-        let name    = e.target.name,
-            value   = e.target.value.trim();
+
+    onValueChange(e) {
+        let name = e.target.name,
+            value = e.target.value.trim();
         this.setState({
-            [name] : value
+            [name]: value
         });
     }
-    // 点击搜索按钮的时候
-    onSearch(){
+
+    onSortChange(e) {
+        this.props.onSortprops(e.target.value);
+    }
+
+    onSearch() {
         this.props.onSearchprops(this.state.searchType, this.state.searchKeyword);
     }
-    // 输入关键字后按回车，自动提交
-    onSearchKeywordKeyUp(e){
-        if(e.keyCode === 13){
+    // for Enter keyboard
+    onSearchKeywordKeyUp(e) {
+        if (e.keyCode === 13) {
             this.onSearch();
         }
     }
-    render(){
+    render() {
         return (
             <div className="row search-wrap">
                 <div className="col-md-12">
@@ -35,20 +39,31 @@ class ListSearch extends React.Component{
                             <select className="form-control"
                                 name="searchType"
                                 onChange={(e) => this.onValueChange(e)}>
-                                <option value="productId">Product ID</option>
-                                <option value="productName">Product Name</option>
+                                <option value="customerId">Customer ID</option>
+                                <option value="customerName">Customer Name</option>
                             </select>
                         </div>
                         <div className="form-group">
-                            <input type="text" 
-                                className="form-control" 
-                                placeholder="Product Name"
+                            <input type="text"
+                                className="form-control"
+                                placeholder="Customer ID"
                                 name="searchKeyword"
                                 onKeyUp={(e) => this.onSearchKeywordKeyUp(e)}
-                                onChange={(e) => this.onValueChange(e)}/>
+                                onChange={(e) => this.onValueChange(e)} />
                         </div>
-                        <button className="btn btn-primary" 
+                        <button className="btn btn-primary"
                             onClick={(e) => this.onSearch()}><i className="fa fa-search"></i> Search</button>
+                        <div className="form-group onright">
+                            <label className="col-md-4 control-label">Sort By: </label>
+                            <div className="col-md-8">
+                                <select className="form-control"
+                                    name="sort"
+                                    onChange={(e) => this.onSortChange(e)}>
+                                    <option value="custid">Customer ID</option>
+                                    <option value="name">Customer Name</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

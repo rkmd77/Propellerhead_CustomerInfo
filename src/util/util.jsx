@@ -1,26 +1,26 @@
-class MUtil{
-    request(param){
+class MUtil {
+    request(param) {
         return new Promise((resolve, reject) => {
             $.ajax({
-                type        : param.type        || 'get',
-                url         : param.url         || '',
-                dataType    : param.dataType    || 'json',
-                data        : param.data        || null,
-                success     : res => {
+                type: param.type || 'get',
+                url: param.url || '',
+                dataType: param.dataType || 'json',
+                data: param.data || null,
+                success: res => {
                     typeof resolve === 'function' && resolve(res);
                 },
-                error       : err => {
+                error: err => {
                     typeof reject === 'function' && reject(err);
                 }
             });
-        });  
+        });
     }
     // on success 
-    successTips(successMsg){
+    successTips(successMsg) {
         alert(successMsg || 'Success!');
     }
     // on error
-    errorTips(errMsg){
+    errorTips(errMsg) {
         alert(errMsg || 'Something is wrong!');
     }
 }

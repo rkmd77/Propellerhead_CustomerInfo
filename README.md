@@ -19,7 +19,7 @@ yarn run dev OR npm run dev
 
 ### To Run the Backend (express + mongodb)
 
-First you will need to install 'mongodb' on your operation system
+First you will need to download and install [MongoDB](https://www.mongodb.com/download-center#community) on your operation system
 
 ``` sh
 # At the express_server path

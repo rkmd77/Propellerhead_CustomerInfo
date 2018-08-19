@@ -13,6 +13,7 @@ class NoteInput extends React.Component {
             value: e.target.value
         })
     }
+
     handleAddNote() {
         let text = this.state.value;
         if (text.trim()) {
@@ -22,6 +23,7 @@ class NoteInput extends React.Component {
             })
         }
     }
+    
     handleSubmit(e) {
         if (e.keyCode == 13) {
             this.handleAddNote();

@@ -10,9 +10,18 @@ class NotesLists extends React.Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        // console.log('defaultNotesValue==', nextProps.defaultNotesValue);
+        let dnv = nextProps.defaultNotesValue;
+        if (dnv) {
+            this.setState({
+                noteslists: dnv
+            })
+        }
+    }
     //update item
     updateItem(id, textvalue) {
-        // console.log(textvalue);
+        console.log(textvalue);
         let data = this.state.noteslists;
         data.forEach(item => {
             if (item.id === id) {
@@ -26,7 +35,6 @@ class NotesLists extends React.Component {
             this.updateNotesLists();
         })
     }
-
     // remove item
     deleteItem(id) {
         let data = this.state.noteslists;
@@ -40,7 +48,6 @@ class NotesLists extends React.Component {
             this.updateNotesLists();
         })
     }
-
     // add new item
     addNoteList(value) {
         const id = Date.now();
@@ -53,7 +60,6 @@ class NotesLists extends React.Component {
             this.updateNotesLists();
         })
     }
-
     // pass value to parent NotesLists
     updateNotesLists() {
         this.props.getNotesList(this.state.noteslists)
@@ -63,7 +69,11 @@ class NotesLists extends React.Component {
         return (
             <div>
                 <NoteInput addNoteList={this.addNoteList.bind(this)} />
-                <NoteList noteslists={this.state.noteslists} deleteItem={this.deleteItem.bind(this)} updateItem={this.updateItem.bind(this)} />
+                <NoteList
+                    noteslists={this.state.noteslists}
+                    deleteItem={this.deleteItem.bind(this)}
+                    updateItem={this.updateItem.bind(this)}
+                />
             </div>
         )
     }

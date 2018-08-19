@@ -2,6 +2,8 @@ import React from 'react';
 import MUtil from 'util/util.jsx'
 import Customer from 'service/customer-service.jsx'
 import PageTitle from 'component/page-title/index.jsx';
+import Selecter from 'component/selecter/index.jsx'
+import NotesLists from 'pages/customer/notes_lists/index.jsx';
 
 import './index.scss';
 
@@ -13,75 +15,64 @@ class CustomerEdit extends React.Component {
         super(props);
         this.state = {
             custid: this.props.match.params.pid,
-            name: 'abc',
-            phone: 0,
+            name: '',
+            phone: '',
             address: '',
-            status: 0,
-            notes: []
+            status: '',
+            creation: '',
+            notes: [],
+            cust_id: null
         }
     }
     componentDidMount() {
-        console.log(this.props.match.params.pid);
-        
-        // this.loadProduct();
+        // console.log(this.props.match.params.pid);
+        this.loadCustomerInfo();
     }
-    // 加载商品详情
-    loadProduct() {
-        // 有id的时候，表示是编辑功能，需要表单回填
-        if (this.state.id) {
-            _customer.getProduct(this.state.id).then((res) => {
-                let images = res.subImages.split(',');
-                res.subImages = images.map((imgUri) => {
-                    return {
-                        uri: imgUri,
-                        url: res.imageHost + imgUri
-                    }
-                });
-                res.defaultDetail = res.detail;
-                this.setState(res);
+
+    loadCustomerInfo() {
+        if (this.state.custid) {
+            _customer.getCustomer(this.state.custid).then((res) => {
+                // console.log(res.results.notes);
+                if (res.status === '0') {
+                    this.setState({
+                        cust_id: res.results._id,
+                        custid: res.results.custid,
+                        name: res.results.name,
+                        phone: res.results.phone,
+                        address: res.results.address,
+                        status: res.results.status,
+                        creation: res.results.creation,
+                        notes: res.results.notes ? JSON.parse(res.results.notes) : null
+                    });
+                }
             }, (errMsg) => {
                 _mm.errorTips(errMsg);
             });
         }
     }
 
-    onValueChange(e) {
-        let name = e.target.name,
-            value = e.target.value.trim();
+    onSelectorValueChange(value) {
         this.setState({
-            [name]: value
-        });
+            status: value
+        })
     }
 
-    onSubmit() {
-        let product = {
-            name: this.state.name,
-            subtitle: this.state.subtitle,
-            categoryId: parseInt(this.state.categoryId),
-            subImages: this.getSubImagesString(),
-            detail: this.state.detail,
-            price: parseFloat(this.state.price),
-            stock: parseInt(this.state.stock),
-            status: this.state.status
-        },
-            productCheckResult = _customer.checkProduct(product);
-        if (this.state.id) {
-            product.id = this.state.id;
-        }
-        // 表单验证成功
-        if (productCheckResult.status) {
-            _customer.saveProduct(product).then((res) => {
-                _mm.successTips(res);
-                this.props.history.push('/product/index');
-            }, (errMsg) => {
-                _mm.errorTips(errMsg);
-            });
-        }
-        // 表单验证失败
-        else {
-            _mm.errorTips(productCheckResult.msg);
-        }
+    getNotesList(noteslist) {
+        this.setState({
+            notes: noteslist
+        })
+    }
 
+    onSave() {
+        // console.log(this.state.notes);
+        _customer.updateCustomer(this.state).then((res) => {
+            _mm.successTips(res.msg);
+            if (res.status === '0') {
+                this.props.history.push('/customer/index');
+            }
+        }, (errMsg) => {
+            _mm.errorTips(errMsg);
+        });
     }
     render() {
         return (
@@ -90,46 +81,53 @@ class CustomerEdit extends React.Component {
                 <div className="form-horizontal">
                     <div className="form-group">
                         <label className="col-md-2 control-label">Customer ID</label>
-                        <div className="col-md-5">
-                        <p className="form-control-static">{this.state.custid}</p>
+                        <div className="col-md-6">
+                            <p className="form-control-static">{this.state.custid}</p>
                         </div>
                     </div>
                     <div className="form-group">
                         <label className="col-md-2 control-label">Customer Name</label>
-                        <div className="col-md-5">
-                        <p className="form-control-static">{this.state.name}</p>
+                        <div className="col-md-6">
+                            <p className="form-control-static">{this.state.name}</p>
                         </div>
                     </div>
                     <div className="form-group">
                         <label className="col-md-2 control-label">phone</label>
-                        <div className="col-md-5">
-                        <p className="form-control-static">{this.state.phone}</p>
+                        <div className="col-md-6">
+                            <p className="form-control-static">{this.state.phone}</p>
                         </div>
                     </div>
                     <div className="form-group">
                         <label className="col-md-2 control-label">Address</label>
-                        <div className="col-md-3">
-                        <p className="form-control-static">{this.state.address}</p>
+                        <div className="col-md-6">
+                            <p className="form-control-static">{this.state.address}</p>
                         </div>
                     </div>
                     <div className="form-group">
                         <label className="col-md-2 control-label">status</label>
                         <div className="col-md-3">
-                            <div className="input-group">
-                                <input type="number" className="form-control"
-                                    placeholder=""
-                                    name="stock"
-                                    value={this.state.stock}
-                                    onChange={(e) => this.onValueChange(e)} />
-                                <span className="input-group-addon">Unit</span>
-                            </div>
-
+                            <Selecter defaultSelected={this.state.status} name="status"
+                                onSelectorValueChange={(value) => this.onSelectorValueChange(value)} />
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label className="col-md-2 control-label">Create At</label>
+                        <div className="col-md-6">
+                            <p className="form-control-static">{this.state.creation}</p>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label className="col-md-2 control-label">Notes</label>
+                        <div className="col-md-6">
+                            <NotesLists
+                                defaultNotesValue={this.state.notes}
+                                getNotesList={this.getNotesList.bind(this)} />
                         </div>
                     </div>
                     <div className="form-group">
                         <div className="col-md-offset-2 col-md-10">
                             <button type="submit" className="btn btn-primary"
-                                onClick={(e) => { this.onSubmit(e) }}>Submit</button>
+                                onClick={(e) => { this.onSave(e) }}>Save</button>
                         </div>
                     </div>
                 </div>

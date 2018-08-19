@@ -1,10 +1,11 @@
 import React from 'react';
-import { Link, NavLink }    from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 class SideNav extends React.Component {
     constructor(props) {
         super(props);
     }
+    
     render() {
         return (
             <div className="navbar-default navbar-side">

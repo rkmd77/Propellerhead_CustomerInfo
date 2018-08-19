@@ -15,7 +15,7 @@ yarn OR npm install
 # 2. Run the application
 yarn run dev OR npm run dev
 ```
-![react-step00](https://github.com/rkmd77/Propellerhead_CustomerInfo/blob/master/step0.png)
+![react-step00](https://github.com/rkmd77/Propellerhead_CustomerInfo/blob/master/step00.png)
 
 ### To Run the Backend (express + mongodb)
 

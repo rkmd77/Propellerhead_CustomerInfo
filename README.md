@@ -55,3 +55,5 @@ node server.js
 * on 'Customer List' page, 'Search' and 'Sort By' function available for 'Customer Id' and 'Customer Name'
 
 * on 'Edit Customer' page, you can add/edit any number of  notes associated with current customer
+
+* will setup 'Unit test' enviroment with testing code later (using by Jest + Enzyme)
